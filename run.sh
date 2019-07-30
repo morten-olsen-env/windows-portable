@@ -13,12 +13,14 @@ mkdir -p $TMP_DIR/downloads
 mkdir -p "$TARGET_DIR"
 
 function addConfig() {
-   echo $1 >> $TARGET_DIR/config/user-profile.cmd
+   echo -n $1 >> $TARGET_DIR/config/user-profile.cmd
+   echo ""
 }
 export -f addConfig
 
 function addAlias() {
-   echo "$1=$2" >> $TARGET_DIR/config/user-aliases.cmd
+   echo -n "$1=$2" >> $TARGET_DIR/config/user-aliases.cmd
+   echo ""
 }
 export -f addAlias
 
@@ -43,6 +45,7 @@ export -f installTarBz2
 function installScript() {
    echo "Installing $1"
    bash "$ROOT_DIR/scripts/$1.sh"
+   echo ""
 }
 
 export INSTALL_DIR="$TARGET_DIR"
@@ -52,7 +55,7 @@ for i in "${packages[@]}"
 do
    : 
    export INSTALL_DIR="$TARGET_DIR/vendor/$i"
-   export BATCH_DIR="%CMDER_ROOT%/vendor/$i"
+   export BATCH_DIR="%CMDER_ROOT%\vendor\$i"
    export SCRIPT_NAME=$i
    installScript $i
 done
