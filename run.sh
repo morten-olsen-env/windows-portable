@@ -14,15 +14,25 @@ mkdir -p "$TARGET_DIR"
 
 function addConfig() {
    echo -n $1 >> $TARGET_DIR/config/user-profile.cmd
-   echo ""
+   echo "" >> $TARGET_DIR/config/user-profile.cmd
 }
 export -f addConfig
 
 function addAlias() {
    echo -n "$1=$2" >> $TARGET_DIR/config/user-aliases.cmd
-   echo ""
+   echo "" >> $TARGET_DIR/config/user-aliases.cmd
 }
 export -f addAlias
+
+function addPath() {
+   addConfig "set \"PATH=$BATCH_DIR$1;%PATH%\""
+}
+export -f addPath
+
+function addVariable() {
+   addConfig "set $1=\"$2\""
+}
+export -f addVariable
 
 function installZip() {
    ZIP_LOCATION="$TMP_DIR/downloads/$SCRIPT_NAME.zip"
@@ -55,7 +65,7 @@ for i in "${packages[@]}"
 do
    : 
    export INSTALL_DIR="$TARGET_DIR/vendor/$i"
-   export BATCH_DIR="%CMDER_ROOT%\vendor\$i"
+   export BATCH_DIR="%CMDER_ROOT%\vendor\\$i"
    export SCRIPT_NAME=$i
    installScript $i
 done
